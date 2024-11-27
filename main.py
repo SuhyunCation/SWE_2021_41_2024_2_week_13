@@ -17,7 +17,7 @@ def train_file_list_to_json(english_file_list: List[str], german_file_list: List
         return file
 
     # Template for json file
-    template_start = '{\"German\":\"'
+    template_start = '{\"English\":\"'
     template_mid = '\",\"German\":\"'
     template_end = '\"}'
 
@@ -27,7 +27,7 @@ def train_file_list_to_json(english_file_list: List[str], german_file_list: List
         english_file = process_file(english_file)
         english_file = process_file(german_file)
 
-        processed_file_list.append(template_mid + english_file + template_start + german_file + template_start)
+        processed_file_list.append(template_start + english_file + template_mid + german_file + template_end)
     return processed_file_list
 
 
