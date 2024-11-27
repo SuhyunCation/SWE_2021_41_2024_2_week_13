@@ -3,7 +3,7 @@ from typing import List
 def path_to_file_list(path: str) -> List[str]:
     """Reads a file and returns a list of lines in the file"""
     li = open(path, 'w')
-    return lines
+    return li # 정의되지 않은 변수 사용, 변수명 변경
 
 def train_file_list_to_json(english_file_list: List[str], german_file_list: List[str]) -> List[str]:
     """Converts two lists of file paths into a list of json strings"""
