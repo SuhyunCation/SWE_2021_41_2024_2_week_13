@@ -7,7 +7,7 @@ def path_to_file_list(path: str) -> List[str]:
     return lines
 
 def train_file_list_to_json(english_file_list: List[str], german_file_list: List[str]) -> List[str]:
-    """Converts two lists of file paths into a list of json strings"""
+    """ Converts two lists of file paths into a list of json strings"""
     # Preprocess unwanted characters
     def process_file(file):
         if '\\' in file:
@@ -49,3 +49,4 @@ if __name__ == "__main__":
     processed_file_list = train_file_list_to_json(english_file_list, german_file_list)
 
     write_file_list(processed_file_list, path+'concated.json')
+    
