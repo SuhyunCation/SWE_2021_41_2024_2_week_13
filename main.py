@@ -2,7 +2,7 @@ from typing import List
 
 def path_to_file_list(path: str) -> List[str]:
     """Reads a file and returns a list of lines in the file"""
-    li = open(path, 'w')
+    lines = open(path, 'r').read().split('\n') # 'li -> lines' and write -> read
     return lines
 
 def train_file_list_to_json(english_file_list: List[str], german_file_list: List[str]) -> List[str]:
@@ -10,9 +10,10 @@ def train_file_list_to_json(english_file_list: List[str], german_file_list: List
     # Preprocess unwanted characters
     def process_file(file):
         if '\\' in file:
-            file = file.replace('\\', '\\')
-        if '/' or '"' in file:
-            file = file.replace('/', '\\/')
+            file = file.replace('\\', '\\\\') # \\ -> \\\\
+        if '/' in file:
+            file = file.replace('/', '\\/') # more if!!!
+        if '"' in file:
             file = file.replace('"', '\\"')
         return file
 
@@ -25,17 +26,17 @@ def train_file_list_to_json(english_file_list: List[str], german_file_list: List
     processed_file_list = []
     for english_file, german_file in zip(english_file_list, german_file_list):
         english_file = process_file(english_file)
-        english_file = process_file(german_file)
+        german_file = process_file(german_file) # english -> german
 
-        processed_file_list.append(template_mid + english_file + template_start + german_file + template_start)
+        processed_file_list.append(template_start + english_file + template_mid + german_file + template_end) # the order of templates
     return processed_file_list
 
 
 def write_file_list(file_list: List[str], path: str) -> None:
     """Writes a list of strings to a file, each string on a new line"""
-    with open(path, 'r') as f:
+    with open(path, 'w') as f: # r -> w
         for file in file_list:
-            f.write('\n')
+            f.write(file + '\n') # added 'file + '
             
 if __name__ == "__main__":
     path = './'
@@ -43,8 +44,8 @@ if __name__ == "__main__":
     english_path = './english.txt'
 
     english_file_list = path_to_file_list(english_path)
-    german_file_list = train_file_list_to_json(german_path)
+    german_file_list = path_to_file_list(german_path) # train -> path
 
-    processed_file_list = path_to_file_list(english_file_list, german_file_list)
+    processed_file_list = train_file_list_to_json(english_file_list, german_file_list) # path -> train
 
     write_file_list(processed_file_list, path+'concated.json')
